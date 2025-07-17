@@ -32,7 +32,27 @@ def get_expected_min_max_poisson_sample(xmean, samplesize, iterations):
 
   return mean_array_minx, std_error_array_minx, mean_array_maxx, std_error_array_maxx
 
-vget_expected_min_max_poisson_sample = np.vectorize(get_expected_min_max_poisson_sample)
+vget_median_min_max_poisson_sample = np.vectorize(get_expected_min_max_poisson_sample)
+
+def get_median_min_max_poisson_sample(xmean, samplesize, iterations):
+  """
+  Generates the expected minimum and standard error of iterations samples of Poisson distribution of size samplesize.
+  """
+  array_minx = []
+  array_maxx = []
+  for i in range(iterations):
+    resultmin, resultmax = get_min_max_poisson_sample(xmean, samplesize)
+    array_minx.append(resultmin)
+    array_maxx.append(resultmax)
+
+  median_array_minx = np.median(array_minx)
+
+  median_array_maxx = np.median(array_maxx)
+
+  return median_array_minx, median_array_maxx
+
+vget_median_min_max_poisson_sample = np.vectorize(get_median_min_max_poisson_sample)
+
 
 def get_absolute_fitness(segregating_alleles, sd, Ud):
   """
